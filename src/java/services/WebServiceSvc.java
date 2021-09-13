@@ -15,6 +15,7 @@ import javax.jws.WebParam;
 import model.Actividad;
 import repository.ActividadRepository;
 import repository.EmpresaRepository;
+import repository.ProyectoRepository;
 import repository.UsuarioRepository;
 
 /**
@@ -103,5 +104,29 @@ public class WebServiceSvc {
     public int eliminarEmpresa(@WebParam(name = "idEmpresa") int idEmpresa) {
         EmpresaRepository e = new EmpresaRepository();
         return e.eliminar_Empresa(idEmpresa);
+    }
+    
+    @WebMethod(operationName = "insertarProyecto")
+    public int insertarProyecto(@WebParam(name = "titulo") String titulo, @WebParam(name = "descripcion") String descripcion, @WebParam(name = "fechaInicio") String fechaInicio,
+            @WebParam(name = "fechaFin") String fechaFin, @WebParam(name = "empresa") int empresa) throws ParseException {
+        Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
+        Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFin);
+        ProyectoRepository proyecto = new ProyectoRepository();
+        return proyecto.insertar_Proyecto(empresa,titulo,descripcion,date1,date2);
+    }
+
+    @WebMethod(operationName = "actualizarProyecto")
+    public int actualizarProyecto(@WebParam(name = "titulo") String titulo, @WebParam(name = "descripcion") String descripcion, @WebParam(name = "fechaInicio") String fechaInicio,
+            @WebParam(name = "fechaFin") String fechaFin, @WebParam(name = "empresa") int empresa, @WebParam(name = "idProyecto") int idProyecto) throws ParseException {
+        Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
+        Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFin);
+        ProyectoRepository p = new ProyectoRepository();
+        return p.actualizar_Proyecto(idProyecto, empresa, titulo, descripcion, date1,date2);
+    }
+
+    @WebMethod(operationName = "eliminarProyecto")
+    public int eliminarProyecto(@WebParam(name = "idProyecto") int idProyecto) {
+        ProyectoRepository p = new ProyectoRepository();
+        return p.eliminar_Proyecto(idProyecto);
     }
 }
