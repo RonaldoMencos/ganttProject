@@ -13,6 +13,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import model.Actividad;
+import model.Usuario;
 import repository.ActividadRepository;
 import repository.EmpresaRepository;
 import repository.ProyectoRepository;
@@ -83,6 +84,18 @@ public class WebServiceSvc {
     public int eliminarUsuario(@WebParam(name = "idUsuario") int idUsuario) {
         UsuarioRepository u = new UsuarioRepository();
         return u.eliminar(idUsuario);
+    }
+    
+     @WebMethod(operationName = "listarUsuarios")
+    public List<Usuario> listarUsuarios() throws ParseException {
+        UsuarioRepository u = new UsuarioRepository();
+        return u.listarUsuario();
+    }
+
+    @WebMethod(operationName = "listarUsuarioPorId")
+    public Usuario listarUsuarioPorId(@WebParam(name = "idUsuario") int idUsuario) throws ParseException {
+         UsuarioRepository u = new UsuarioRepository();
+        return u.listarUsuarioPorId(idUsuario);
     }
 
     @WebMethod(operationName = "insertarEmpresa")

@@ -5,6 +5,12 @@ import connection.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Usuario;
 
 public class UsuarioRepository{
     private Connection conn;
@@ -70,5 +76,44 @@ public class UsuarioRepository{
         return respuesta;
     }
     
+    public List<Usuario> listarUsuario() {
+        Usuario usuario;
+        List<Usuario> listUsuario = new ArrayList<Usuario>();
+        Conexion conexion = new Conexion();
+        conn = conexion.conectar();
+        try {
+            st=conn.prepareStatement("select * from Usuario");
+            rs=st.executeQuery();
+            while (rs.next()) {
+                usuario = new Usuario(rs.getInt("idUsuario"),
+                        rs.getString("nombre"),rs.getString("apellido"),rs.getString("email"),rs.getString("password"));
+                listUsuario.add(usuario);
+            }
+            conexion.desconectar();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActividadRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listUsuario;
+    }
     
+    public Usuario listarUsuarioPorId(int idUsuario) {
+        Usuario usuario = new Usuario();
+        Conexion conexion = new Conexion();
+        conn = conexion.conectar();
+        try {
+            st=conn.prepareStatement("select * from usuario where idUsuario =?");
+            st.setInt(1, idUsuario);
+            rs=st.executeQuery();
+            while (rs.next()) {
+                usuario = new Usuario(rs.getInt("idUsuario"),
+                        rs.getString("nombre"),rs.getString("apellido"),rs.getString("email"),rs.getString("password"));
+            }
+            conexion.desconectar();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActividadRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usuario;
+    }
 }
