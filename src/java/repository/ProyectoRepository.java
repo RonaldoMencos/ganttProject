@@ -4,7 +4,14 @@ import connection.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Proyecto;
+import model.Tarea;
 
 
 public class ProyectoRepository {
@@ -77,5 +84,46 @@ public class ProyectoRepository {
             ex.printStackTrace();
         }
         return respuesta;
+    }
+    
+    public List<Proyecto> listarProyectos() {
+        Proyecto proyecto;
+        List<Proyecto> listProyecto = new ArrayList<Proyecto>();
+        Conexion conexion = new Conexion();
+        con = conexion.conectar();
+        try {
+            stm=con.prepareStatement("select * from proyecto");
+            rs=stm.executeQuery();
+            while (rs.next()) {
+                proyecto = new Proyecto(rs.getInt("idProyecto"),rs.getInt("empresa"),
+                        rs.getString("titulo"),rs.getString("descripcion"),rs.getDate("fechaInicio"),rs.getDate("fechaFin"));
+                listProyecto.add(proyecto);
+            }
+            conexion.desconectar();
+            stm.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TareaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listProyecto;
+    }
+    
+    public Proyecto listarProyectoPorId(int idProyecto) {
+        Proyecto proyecto = new Proyecto();
+        Conexion conexion = new Conexion();
+        con = conexion.conectar();
+        try {
+            stm=con.prepareStatement("select * from proyecto where idProyecto =?");
+            stm.setInt(1, idProyecto);
+            rs=stm.executeQuery();
+            while (rs.next()) {
+                proyecto = new Proyecto(rs.getInt("idProyecto"),rs.getInt("empresa"),
+                        rs.getString("titulo"),rs.getString("descripcion"),rs.getDate("fechaInicio"),rs.getDate("fechaFin"));
+            }
+            conexion.desconectar();
+            stm.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActividadRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return proyecto;
     }
 }
