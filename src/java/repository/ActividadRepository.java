@@ -120,4 +120,26 @@ public class ActividadRepository {
         return actividad;
     }
     
+    public List<Actividad> listarActividadesPorProyecto(int tarea) {
+        Actividad actividad;
+        List<Actividad> listActividad= new ArrayList<Actividad>();
+        Conexion conexion = new Conexion();
+        conn = conexion.conectar();
+        try {
+            st=conn.prepareStatement("select * from actividad where tarea = ?");
+            st.setInt(1, tarea);
+            rs=st.executeQuery();
+            while (rs.next()) {
+                actividad = new Actividad(rs.getInt("idActividad"),rs.getInt("tarea"),
+                        rs.getString("titulo"),rs.getString("descripcion"),rs.getDate("fechaInicio"),rs.getDate("fechaFin"));
+                listActividad.add(actividad);
+            }
+            conexion.desconectar();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TareaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listActividad;
+    }
+    
 }

@@ -59,6 +59,12 @@ public class WebServiceSvc {
         ActividadRepository actividad = new ActividadRepository();
         return actividad.listarActividades();
     }
+    
+    @WebMethod(operationName = "listarActividadesPorTarea")
+    public List<Actividad> listarActividadesPorTarea(@WebParam(name = "tarea") int tarea) throws ParseException {
+        ActividadRepository actividad = new ActividadRepository();
+        return actividad.listarActividadesPorProyecto(tarea);
+    }
 
     @WebMethod(operationName = "listarActividadPorId")
     public Actividad listarActividadPorId(@WebParam(name = "idActividad") int idActividad) throws ParseException {
@@ -210,5 +216,10 @@ public class WebServiceSvc {
         return tarea.listarTareaPorId(idTarea);
     }
     
+    @WebMethod(operationName = "listarTareasPorProyecto")
+    public List<Tarea> listarTareasPorProyecto(@WebParam(name = "proyecto") int proyecto) throws ParseException {
+        TareaRepository tarea = new TareaRepository();
+        return tarea.listarTareasPorProyecto(proyecto);
+    }
     
 }

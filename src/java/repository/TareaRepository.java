@@ -119,4 +119,26 @@ public class TareaRepository {
         }
         return tarea;
     }
+    
+    public List<Tarea> listarTareasPorProyecto(int proyecto) {
+        Tarea tarea;
+        List<Tarea> listTarea = new ArrayList<Tarea>();
+        Conexion conexion = new Conexion();
+        conn = conexion.conectar();
+        try {
+            st=conn.prepareStatement("select * from tarea where proyecto = ?");
+            st.setInt(1, proyecto);
+            rs=st.executeQuery();
+            while (rs.next()) {
+                tarea = new Tarea(rs.getInt("idTarea"),rs.getInt("proyecto"),
+                        rs.getString("titulo"),rs.getString("descripcion"),rs.getDate("fechaInicio"),rs.getDate("fechaFin"));
+                listTarea.add(tarea);
+            }
+            conexion.desconectar();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TareaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listTarea;
+    }
 }

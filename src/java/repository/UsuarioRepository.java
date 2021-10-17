@@ -24,7 +24,7 @@ public class UsuarioRepository{
         
         try
         {
-            st=conn.prepareStatement("insert into usuario(nombre,apellido,email,password)"+"values ('"+nombre+"','"+apellido+"','"+email+"',"+password+")");
+            st=conn.prepareStatement("insert into usuario(nombre,apellido,email,password)"+"values ('"+nombre+"','"+apellido+"','"+email+"','"+password+"')");
             respuesta= st.executeUpdate();
             c1.desconectar();
             conn.close();
