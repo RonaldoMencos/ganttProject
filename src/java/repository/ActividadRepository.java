@@ -120,7 +120,7 @@ public class ActividadRepository {
         return actividad;
     }
     
-    public List<Actividad> listarActividadesPorProyecto(int tarea) {
+    public List<Actividad> listarActividadesPorTarea(int tarea) {
         Actividad actividad;
         List<Actividad> listActividad= new ArrayList<Actividad>();
         Conexion conexion = new Conexion();

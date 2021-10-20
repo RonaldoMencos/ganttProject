@@ -63,7 +63,7 @@ public class WebServiceSvc {
     @WebMethod(operationName = "listarActividadesPorTarea")
     public List<Actividad> listarActividadesPorTarea(@WebParam(name = "tarea") int tarea) throws ParseException {
         ActividadRepository actividad = new ActividadRepository();
-        return actividad.listarActividadesPorProyecto(tarea);
+        return actividad.listarActividadesPorTarea(tarea);
     }
 
     @WebMethod(operationName = "listarActividadPorId")
